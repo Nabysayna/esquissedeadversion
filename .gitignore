@@ -1,35 +1,3 @@
-#---------------------------------
-# Directories
-#---------------------------------
-**/node_modules/
-coverage/
-target/
-tmp/
-typings/
-dist/
-
-
-#---------------------------------
-# Extensions
-#---------------------------------
-*.gz
-*.log
-*.rar
-*.tar
-*.zip
-npm-debug.log*
-
-#---------------------------------
-# IDE generated
-#---------------------------------
-.idea/
-.project
-*.iml
-
-
-#---------------------------------
-# OS generated
-#---------------------------------
-__MACOSX/
-.DS_Store
-Thumbs.db
+/node_modules/
+/dist/
+/npm-debug.log

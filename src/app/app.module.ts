@@ -1,108 +1,42 @@
-import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+import { rootRouterConfig } from './app.routes';
+import { AppComponent } from './app.component';
+import { GithubService } from './github/shared/github.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 
-/*
- * Platform and Environment providers/directives/pipes
- */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
-// App is our top level component
-import { App } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InteralStateType } from './app.service';
-import { AppConfig } from './app.config';
-import { ErrorComponent } from './error/error.component';
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
+import { RepoBrowserComponent } from './github/repo-browser/repo-browser.component';
+import { RepoListComponent } from './github/repo-list/repo-list.component';
+import { RepoDetailComponent } from './github/repo-detail/repo-detail.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { ContactComponent } from './contact/contact.component';
 
-/* Error Handler feature */
-import { ErrorLogService } from './core/core.error-log.service';
-import { CORE_ERROR_HANDLER_PROVIDERS } from './core/core.error-handler';
-import { CORE_ERROR_HANDLER_OPTIONS  } from './core/core.error-handler';
-/**/
-
-
-// Application wide providers
-const APP_PROVIDERS = [
-  ErrorLogService,
-  ...CORE_ERROR_HANDLER_PROVIDERS,
-  {
-    provide: CORE_ERROR_HANDLER_OPTIONS,
-    useValue: {
-        rethrowError: false,
-        unwrapError: false
-    }
-  },
-  ...APP_RESOLVER_PROVIDERS,
-  AppState,
-  AppConfig
-];
-
-type StoreType = {
-  state: InteralStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
-
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
 @NgModule({
-  bootstrap: [ App ],
   declarations: [
-    App,
-    ErrorComponent
+    AppComponent,
+    AboutComponent,
+    RepoBrowserComponent,
+    RepoListComponent,
+    RepoDetailComponent,
+    HomeComponent,
+    ContactComponent
   ],
-  imports: [ // import Angular's modules
+  imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    RouterModule.forRoot(rootRouterConfig, { useHash: true })
   ],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS,
-    APP_PROVIDERS
-  ]
+  providers: [
+    GithubService
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {}
-
-  hmrOnInit(store: StoreType) {
-    if (!store || !store.state) return;
-    console.log('HMR store', JSON.stringify(store, null, 2));
-    // set state
-    this.appState._state = store.state;
-    // set input values
-    if ('restoreInputValues' in store) {
-      let restoreInputValues = store.restoreInputValues;
-      setTimeout(restoreInputValues);
-    }
-
-    this.appRef.tick();
-    delete store.state;
-    delete store.restoreInputValues;
-  }
-
-  hmrOnDestroy(store: StoreType) {
-    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    // save state
-    const state = this.appState._state;
-    store.state = state;
-    // recreate root elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // save input values
-    store.restoreInputValues  = createInputTransfer();
-    // remove styles
-    removeNgStyles();
-  }
-
-  hmrAfterDestroy(store: StoreType) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
 
 }
-

@@ -1,65 +1,14 @@
-## Usage
+## angular2-seed
 
-### Quick start
-**Make sure you have Node version >= 5.0 and NPM >= 3**
-
-```bash
-# change directory to our repo
-cd dir_name
-
-# install the repo with npm
-npm install
-
-# install TypeScript typings
-npm run typings-install
-
-# start the server
-npm start
-
-# use Hot Module Replacement
-npm run server:dev:hmr
-```
-go to [http://0.0.0.0:3000](http://0.0.0.0:3000) or [http://localhost:3000](http://localhost:3000) in your browser
+A simple starter project demonstrating the basic concepts of Angular 2.
 
 
-### Installing
-* `npm install` to install all dependencies
-* `npm run server` to start the dev server in another tab
-
-### server
-```bash
-# development
-npm run server
-# production
-npm run build:prod
-npm run server:prod
-```
-
-<br>
-## Other commands
-### test
-```bash
-npm run test  -- Check the examples in page2 module.
-```
-### docs
-
-```bash
-npm run typedoc  
-```
-### build files
-```bash
-# development
-npm run build:dev
-# production
-npm run build:prod
-```
-
-### hot module replacement
-```bash
-npm run server:dev:hmr
-```
-
-### watch and build files
-```bash
-npm run watch
-```
+### Usage
+- Clone or fork this repository
+- Make sure you have [node.js](https://nodejs.org/) installed version 5+
+- Make sure you have NPM installed version 3+
+- `WINDOWS ONLY` run `npm install -g webpack webpack-dev-server typescript` to install global dependencies
+- run `npm install` to install dependencies
+- run `npm start` to fire up dev server
+- open browser to [`http://localhost:3000`](http://localhost:3000)
+- if you want to use other port, open `package.json` file, then change port in `--port 3000` script
